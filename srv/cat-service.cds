@@ -18,10 +18,9 @@ service requirements_service {
             action setToWorkInProgress() returns actionReturn;
                 @sap.applicable.path : 'setToSolved'
                 action setToSolved() returns     actionReturn;
+                @sap.applicable.path : 'setSolution'
+                action setSolution(solution: String) returns     actionReturn;
             };
-
-    @sap.applicable.path : 'sayHello'
-    action sayHello();
 }
 
 

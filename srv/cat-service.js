@@ -3,15 +3,21 @@ const xsenv = require("@sap/xsenv");
 const { readCredential } = require("./getAuthFromCredstore");
 
 module.exports = (srv) => {
+    srv.on('setSolution', async (req) => {        
+        const id = req.params[0].ID;
+        const { solution } = req.data;
+        const { Requirements } = srv.entities;
+        const n = await UPDATE(Requirements).set({ solution: solution }).where({ ID: id });
+    })
+
 
     srv.on('setToReported', async (req) => {
-        setStatus(srv, req, 1);
+        //setStatus(srv, req, 1);
+        const id = req.params[0].ID;
+        const { Requirements } = srv.entities;
+        const n = await UPDATE(Requirements).set({ status_ID: 1 }).where({ ID: id });
         req.notify('Please save your changes');
-    })
-
-    srv.on('sayHello', async (req) => {
-        req.notify('Hello');
-    })
+    })   
 
 
     srv.on('setToWorkInProgress', async (req) => {
@@ -79,5 +85,5 @@ async function getNextNumber(entity) {
 async function setStatus(srv, req, status) {
     const id = req.params[0].ID;
     const { Requirements } = srv.entities;
-    const n = await UPDATE(Requirements).set({ status_ID: status }).where({ ID: id });    
+    const n = await UPDATE(Requirements).set({ status_ID: status }).where({ ID: id });
 }

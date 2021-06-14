@@ -8,10 +8,10 @@ annotate service.Requirements with @(UI : {
     SelectionFields : [number],
 
     LineItem        : [
-          {
+        {
             $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.EntityContainer/sayHello',
-            Label  : 'Say Hello'
+            Action : 'requirements_service.setSolution',
+            Label  : 'Solution'
         },
         {
             $Type  : 'UI.DataFieldForAction',
@@ -37,13 +37,13 @@ annotate service.Requirements with @(UI : {
             Label : 'Title'
         },
 
-        {            
+        {
             Value : description,
             Label : 'Description'
         },
         {
-            Value : status.descr,            
-            Label : 'Status Text',           
+            Value : status.descr,
+            Label : 'Status Text',
         }
     ]
 });
@@ -90,6 +90,10 @@ annotate service.Requirements with @(UI : {
         {
             Value : description,
             Label : 'Description'
+        },
+         {
+            Value : solution,
+            Label : 'Solution'
         },
         {
             Value : status_ID,
