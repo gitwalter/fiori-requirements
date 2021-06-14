@@ -1,0 +1,44 @@
+@server = http://localhost:35437
+@me = Authorization: Basic {{$processEnv USER}}:
+
+### ------------------------------------------------------------------------
+# Fetch Requirements
+GET {{server}}/requirements-service/Requirements?
+Authorization: Basic alice:
+
+### ------------------------------------------------------------------------
+# Create Requirement
+POST {{server}}/requirements-service/Requirements
+Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic alice:
+
+{
+  "ID": 5,
+  "problem": "the sun is not shining",
+  "app": "sun app",
+  "description": "I miss the sun",
+  "solution": "ask Mr. Kachelmann for more information",
+  "status_ID"  : 1,
+  "user": "Sunnyboy"
+}
+
+
+### ------------------------------------------------------------------------
+# Fetch Requirements
+GET {{server}}/requirements-view/RequirementsView?
+Authorization: Basic alice:
+
+
+### ------------------------------------------------------------------------
+# Create Requirement
+POST {{server}}/requirements-view/RequirementsView
+Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic alice:
+
+{
+  "ID": 2,
+  "problem": "the sun is not shining",
+  "app": "sun app",
+  "description": "I miss the sun",
+  "solution": "ask Mr. Kachelmann for more information"
+}

@@ -1,0 +1,63 @@
+{
+  "name": "fiori-requirements",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^5.1.5",
+    "@sap/xsenv": "^3.1.0",
+    "express": "^4",
+    "node-fetch": "^2.6.1",
+    "node-jose": "^2.0.0",
+    "sap-cf-mailer": "^0.0.5"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.84.12",
+    "sqlite3": "^5.0.2"
+  },
+  "scripts": {
+    "start": "cds run"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "model": "*"
+      }
+    }
+  },
+  "sapux": [
+    "app/fiori-requirements-ui",
+    "app/project1",
+    "app/project1",
+    "app/project1",
+    "app/project1"
+  ]
+}
