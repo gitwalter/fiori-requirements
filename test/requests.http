@@ -24,12 +24,6 @@ Authorization: Basic alice:
 
 
 ### ------------------------------------------------------------------------
-# Fetch Requirements
-GET {{server}}/requirements-view/RequirementsView?
-Authorization: Basic alice:
-
-
-### ------------------------------------------------------------------------
 # Create Requirement
 POST {{server}}/requirements-view/RequirementsView
 Content-Type: application/json;IEEE754Compatible=true
@@ -42,3 +36,41 @@ Authorization: Basic alice:
   "description": "I miss the sun",
   "solution": "ask Mr. Kachelmann for more information"
 }
+
+### ------------------------------------------------------------------------
+# Get token to send mail
+# @name client_credentials_grant
+POST https://fielmann-stage.prod.apimanagement.eu10.hana.ondemand.com:443/oauth/tokenissuer
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{clientId}}&client_secret={{clientSecret}}
+
+
+### ------------------------------------------------------------------------
+# Send mail
+POST https://fielmann-stage.prod.apimanagement.eu10.hana.ondemand.com:443/send-mail
+Content-Type: application/json
+Authorization: Bearer {{client_credentials_grant.response.body.access_token}}
+apikey: An7bGdnGLcCnUUnqaXac3P3U6QBLzHQh
+
+{
+   "from":{
+      "email":"sap.btp@sap.cloud.fielmann.net",
+      "name":"SAP BTP "
+   },
+   "to":{
+      "email":"walter.pogantsch@fielmann.com",
+      "name": "Walter Pogantsch"
+   },
+ 
+   "subject":"Der Kommissar",
+   "content":{
+      "type":"text/html",
+      "value":"<p>Hell!</p><p>Sie cappen hin sie cappen her dazwischen krozns ob die Wänd....2, 3, 4, 123 na es is nix dabei....<strong>wenn i </strong>, <strong>eich dazöhl die gschicht</strong>, nichts desto trotz ich bin es schon gewohnt im tv-funk da läuft es nicht... <strong>drah di ned um....</strong>.</p><p>der kommissar geht um.....</p>"
+   }
+}
+
+
+
+
+

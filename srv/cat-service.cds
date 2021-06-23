@@ -1,29 +1,27 @@
 using com.fiori.requirements from '../db/schema';
 
-type actionReturn {
-    acknowledge : String enum {
-        succeeded;
-        failed;
-    };
-    message     : String;
-};
-
 service requirements_service {
     entity Status       as select from requirements.Status;
 
     entity Requirements as projection on requirements.Requirements actions {
-                @sap.applicable.path : 'setToReported'
-        action setToReported() returns           actionReturn;
-                @sap.applicable.path : 'setToWorkInProgress'
-            action setToWorkInProgress() returns actionReturn;
-                @sap.applicable.path : 'setToSolved'
-                action setToSolved() returns     actionReturn;
-                @sap.applicable.path : 'setSolution'
-                action setSolution(solution: String) returns     actionReturn;
-            };
+        @sap.applicable.path : 'setToReported'
+        action setToReported();
+        @sap.applicable.path : 'setToWorkInProgress'
+        action setToWorkInProgress();
+        @sap.applicable.path : 'setToSolved'
+        action setToSolved();
+        @sap.applicable.path : 'setSolution'
+        action setSolution(solution : String);
+    };
+
+    @sap.applicable.path :               'sendMail'
+    action sendMail(to : String @title : 'To', subject : String @title : 'Subject', text : String @title : 'Text');
 }
 
+// service RequirementService {
+//     entity Requirements as projection on requirements.Requirements
+// }
 
-service RequirementsViewService {
-    entity RequirementsView as select from requirements.RequirementsView;
+service mail {
+    action sendMail(to : String @title : 'To', subject : String @title : 'Subject', text : String @title : 'Text');
 }

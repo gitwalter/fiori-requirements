@@ -1,33 +1,30 @@
-const xsenv = require("@sap/xsenv");
-
-const { readCredential } = require("./getAuthFromCredstore");
+const { callSendMailAPI, setStatus, getNextNumber, getProcessEnvironmentVariables } = require("./catServiceFunctions");
+const status = { "reported": 1, "workInProgress": 2, "solved": 3 }
 
 module.exports = (srv) => {
-    srv.on('setSolution', async (req) => {        
+    srv.on('setSolution', async (req) => {
         const id = req.params[0].ID;
         const { solution } = req.data;
         const { Requirements } = srv.entities;
         const n = await UPDATE(Requirements).set({ solution: solution }).where({ ID: id });
     })
 
+    srv.on('sendMail', async (req) => {
+        const { to, subject, text } = req.data;
+        callSendMailAPI(to, subject, text);
+    })
 
     srv.on('setToReported', async (req) => {
-        //setStatus(srv, req, 1);
-        const id = req.params[0].ID;
-        const { Requirements } = srv.entities;
-        const n = await UPDATE(Requirements).set({ status_ID: 1 }).where({ ID: id });
-        req.notify('Please save your changes');
-    })   
-
+        setStatus(srv, req, status.reported);
+        //req.notify('Please save your changes');
+    })
 
     srv.on('setToWorkInProgress', async (req) => {
-        setStatus(srv, req, 2);
-        req.notify('Please save your changes');
+        setStatus(srv, req, status.workInProgress);
     })
 
     srv.on('setToSolved', async (req) => {
-        setStatus(srv, req, 3);
-        req.notify('Please save your changes');
+        setStatus(srv, req, status.solved);
     })
 
     srv.before('CREATE', 'Requirements', async (context) => {
@@ -37,53 +34,10 @@ module.exports = (srv) => {
     })
 
     srv.after('CREATE', 'Requirements', async (requirements) => {
-
-        xsenv.loadEnv();
-
-        const binding = xsenv.getServices({ credstore: { tag: 'credstore' } }).credstore;
-        //load environment variables to read from credential store
-
-        const KeyNameSpace = process.env.KEY_NAMESPACE;
-
-        const KeyName = process.env.KEY_NAME;
-
-        let keys = await readCredential(binding, KeyNameSpace, "password", KeyName);
-        var nodemailer = require('nodemailer');
-
-        var transporter = nodemailer.createTransport({
-            host: "smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: keys.username,
-                pass: keys.value
-            }
-        });
-
-        var mailOptions = {
-            from: 'youremail@gmail.com',
-            to: 'myfriend@yahoo.com',
-            subject: requirements.problem,
-            text: requirements.description
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-    })
+        const { mailRecipient } = getProcessEnvironmentVariables();
+        callSendMailAPI(mailRecipient, requirements.problem, requirements.description);
+    }
+    )
 }
 
-async function getNextNumber(entity) {
-    const result = await SELECT.one(entity).orderBy({ number: 'desc' })
-    return result ? result.number + 1 : 1
-}
 
-async function setStatus(srv, req, status) {
-    const id = req.params[0].ID;
-    const { Requirements } = srv.entities;
-    const n = await UPDATE(Requirements).set({ status_ID: status }).where({ ID: id });
-}
