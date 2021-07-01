@@ -13,13 +13,13 @@ entity Requirements : cuid, managed {
     app         : String                @title : 'App';
     description : String                @title : 'Description'  @UI.MultiLineText;
     solution    : String                @title : 'Solution';
-    status      : Association to Status @title : 'Status' @readonly;
+    status      : Association to Status @title : 'Status';
     user        : String                @title : 'User';
 }
 
 annotate Requirements with {
-    ID     @Core.Computed
-    //status @Common.ValueListWithFixedValues
+    ID @Core.Computed
+//status @Common.ValueListWithFixedValues
 }
 
 @cds.odata.valuelist
@@ -30,7 +30,7 @@ entity Status : CodeList, managed {
 };
 
 annotate Status with {
-    descr @readonly
+    descr @Core.Computed
 }
 
 // annotate Status with {

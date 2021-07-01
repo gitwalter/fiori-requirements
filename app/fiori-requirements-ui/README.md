@@ -1,30 +1,30 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Thu Jun 10 2021 12:43:46 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Fri Jun 25 2021 12:47:06 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>@sap/generator-fiori|
-|**App Generator Version**<br>1.2.0|
+|**App Generator Version**<br>1.2.1|
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Floorplan Used**<br>List Report Object Page V4|
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>/requirements-service/
-|**Module Name**<br>project1|
-|**Application Title**<br>App Title|
+|**Module Name**<br>fiori-requirements-ui|
+|**Application Title**<br>Fiori Requirements|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_fiori_3|
 |**UI5 Version**<br>1.89.0|
-|**Enable Telemetry**<br>True|
+|**Enable Telemetry**<br>False|
 |**Main Entity**<br>Requirements|
 
-## project1
+## fiori-requirements-ui
 
-A Fiori application.
+Requirements App
 
 ### Starting the generated app
 
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:
 
-http://localhost:4004/project1/webapp/index.html
+http://localhost:4004/fiori-requirements-ui/webapp/index.html
 
 #### Pre-requisites:
 

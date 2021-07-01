@@ -30,3 +30,6 @@ mta_archives/
 
 # auto generated wildcard
 mailtest/.env
+
+# added by cds deploy
+default-env.json

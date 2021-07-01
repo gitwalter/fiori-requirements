@@ -94,7 +94,7 @@ annotate service.Requirements with @(UI : {
             Value : problem,
             Label : 'Problem'
         },
-        {            
+        {
             Value : description,
             Label : 'Description'
         },
@@ -102,13 +102,65 @@ annotate service.Requirements with @(UI : {
             Value : solution,
             Label : 'Solution'
         },
-        {            
+        {
             Value : status_ID,
             Label : 'Status'
-        },      
+        },
         {
             Value : status.descr,
             Label : 'Status Text'
+        },
+        {
+            $Type : 'UI.DataFieldWithUrl',
+            Value : 'https://www.google.de',
+            Url   : 'https://www.google.de',
+            Label : 'Column label'
         }
     ]}
 });
+
+annotate service.Requirements with {
+
+    @Common.Label                    : 'Status'
+
+    @Common                          : {
+
+        Text            : status.descr,
+        TextArrangement : #TextOnly
+
+    }
+
+    @Common.ValueListWithFixedValues : true
+
+    @Common.ValueList                : {
+
+        $Type          : 'Common.ValueListType',
+        Label          : 'Status',
+        CollectionPath : 'Status',
+
+        Parameters     : [
+
+            {
+
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : status_ID,
+                ValueListProperty : 'ID'
+
+            },
+
+            {
+
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'descr'
+
+            }
+
+        ]
+
+    }
+
+    @Core.Description                : 'Status'
+
+    status
+
+};

@@ -1,0 +1,128 @@
+_schema-version: "3.1"
+ID: fiori-requirements
+description: Fiori Requirements
+version: 1.0.0
+modules:
+- name: fiori-requirements-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: fiori-requirements-xsuaa
+  - name: fiori-requirements-destination
+  - name: fiori-requirements-connectivity
+  - name: fiori-requirements-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+- name: fiori-requirements-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: fiori-requirements-destination
+    parameters:
+      content-target: true
+  - name: fiori-requirements_html_repo_host
+    parameters:
+      service-key:
+        name: fiori-requirements_html_repo_host-key
+  - name: fiori-requirements-xsuaa
+    parameters:
+      service-key:
+        name: fiori-requirements-xsuaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: fiori_requirements_fiori_requirements_html_repo_host
+          ServiceInstanceName: fiori-requirements-html5-app-host-service
+          ServiceKeyName: fiori-requirements_html_repo_host-key
+          sap.cloud.service: fiori_requirements
+        - Authentication: OAuth2UserTokenExchange
+          Name: fiori_requirements_fiori_requirements_xsuaa
+          ServiceInstanceName: fiori-requirements-xsuaa
+          ServiceKeyName: fiori-requirements-xsuaa-key
+          sap.cloud.service: fiori_requirements
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: fiori-requirements-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: fiori-requirements_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - fiorirequirementsui.zip
+      name: fiorirequirementsui
+      target-path: resources/
+- name: fiorirequirementsui
+  type: html5
+  path: app/fiori-requirements-ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: fiori-requirements-xsuaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: fiori-requirements-${space}
+    service: xsuaa
+    service-name: fiori-requirements-xsuaa
+    service-plan: application
+- name: fiori-requirements-destination
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            HTML5.ForwardAuthToken: true
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: fiori-requirements-destination
+    service-plan: lite
+- name: fiori-requirements-connectivity
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-name: fiori-requirements-connectivity
+    service-plan: lite
+- name: fiori-requirements-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-service-name: ${service-name}
+- name: fiori-requirements_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: fiori-requirements-html5-app-host-service
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install --production
+    - npx -p @sap/cds-dk cds build --production

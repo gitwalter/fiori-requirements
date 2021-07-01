@@ -1,5 +1,11 @@
 using com.fiori.requirements from '../db/schema';
 
+type mailType {
+    to      : String @title : 'To';
+    subject : String @title : 'Subject';
+    text    : String @UI.MultiLineText
+}
+
 service requirements_service {
     entity Status       as select from requirements.Status;
 
@@ -14,8 +20,8 @@ service requirements_service {
         action setSolution(solution : String);
     };
 
-    @sap.applicable.path :               'sendMail'
-    action sendMail(to : String @title : 'To', subject : String @title : 'Subject', text : String @title : 'Text');
+    @sap.applicable.path : 'sendMail'
+    action sendMail(mail : mailType);
 }
 
 // service RequirementService {

@@ -3,7 +3,7 @@ const chai = require("chai");
 
 jest.setTimeout(50000);
 
-describe('Requirements on CDS service-level', () => {
+describe('Test requirement-service on CDS service-level', () => {
     let srv, Requirements, id
     beforeAll(async () => {
         await cds.deploy(__dirname + '../../srv/cat-service').to('sqlite')
@@ -33,6 +33,7 @@ describe('Requirements on CDS service-level', () => {
     test('Set requirement to solved', async () => {
         await srv.setToSolved('Requirements', id);
         const readRequirement = await SELECT.from`com.fiori.requirements.Requirements`.where`ID = ${id}`;
+        
         chai.expect(readRequirement[0].status_ID).to.equal(3);
     })
 

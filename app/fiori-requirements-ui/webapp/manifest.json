@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "project1",
+        "id": "fiorirequirementsui",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -23,6 +23,21 @@
         "sourceTemplate": {
             "id": "ui5template.fiorielements.v4.lrop",
             "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "fiorirequirementsui-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "fiori_requirements",
+                    "action": "manage",
+                    "title": "Fiori Requirements",
+                    "subTitle": "",
+                    "icon": ""
+                }
+            }
         }
     },
     "sap.ui": {
@@ -130,5 +145,9 @@
         "_version": "1.1.0",
         "registrationIds": [],
         "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "fiori_requirements"
     }
 }

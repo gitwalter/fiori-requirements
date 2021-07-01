@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^5.1.5",
+    "@sap/hana-client": "^2.6.61",
     "@sap/xsenv": "^3.1.0",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
@@ -19,6 +20,7 @@
     "superagent": "^6.1.0"
   },
   "devDependencies": {
+    "@sap/hdi-deploy": "^4.0.5",
     "@sap/ux-specification": "^1.84.12",
     "sqlite3": "^5.0.2"
   },
@@ -58,13 +60,17 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "sqlite",
+        "kind": "sql",
         "model": "*"
       }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
     }
   },
   "sapux": [
     "app/fiori-requirements-ui",
-    "app/project1"
+    "app/project1",
+    "app/fiori-requirements-ui"
   ]
 }
