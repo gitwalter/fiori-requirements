@@ -33,3 +33,6 @@ mailtest/.env
 
 # added by cds deploy
 default-env.json
+
+# auto generated wildcard
+.env

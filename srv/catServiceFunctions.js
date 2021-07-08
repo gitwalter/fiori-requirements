@@ -12,50 +12,7 @@ async function getNextNumber(entity) {
     return result ? result.number + 1 : 1;
 }
 exports.getNextNumber = getNextNumber;
-async function setStatus(srv, req, status) {
-    let id;
-    //params are not filled during unittest but req.data.ID has a value set
-    if (req.params.length === 0) {
-        id = req.data.ID;
-    }
-    //req.params are filled during call from http
-    else {
-        id = req.params[0].ID
-    }
-    const { Requirements } = srv.entities;
-    const n = await UPDATE(Requirements).set({ status_ID: status }).where({ ID: id });
-}
-exports.setStatus = setStatus;
-async function sendRequirementMailTrap(requirements) {
-    const credstoreBinding = getCredstoreBinding();
-    //load environment variables to read from credential store
-    const keyNameSpace = process.env.KEY_MAILTRAP_NAMESPACE;
-    const keyName = process.env.KEY_MAILTRAP_NAME;
-    let keys = await readCredential(credstoreBinding, keyNameSpace, "password", keyName);
-    var nodemailer = require('nodemailer');
-    var transporter = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
-        auth: {
-            user: keys.username,
-            pass: keys.value
-        }
-    });
-    var mailOptions = {
-        from: 'youremail@gmail.com',
-        to: 'myfriend@yahoo.com',
-        subject: requirements.problem,
-        text: requirements.description
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-}
+
 async function callSendMailAPI(to, subject, text) {
     //read environment
     const { mailApiUrl, keyNameSpace, passwordName, tokenUrl, keyName } = getProcessEnvironmentVariables();
@@ -122,6 +79,7 @@ exports.getProcessEnvironmentVariables = getProcessEnvironmentVariables;
 function callback(res) {
     return res;
 }
-function errorCallback(error) {
-    return 'error at sending mail';
-}
+ function errorCallback(error) {
+     //console.log(error.message);
+     return 'error at sending mail' + ' ' + error.message;
+ }

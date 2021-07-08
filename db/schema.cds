@@ -12,14 +12,13 @@ entity Requirements : cuid, managed {
     problem     : String                @title : 'Problem';
     app         : String                @title : 'App';
     description : String                @title : 'Description'  @UI.MultiLineText;
-    solution    : String                @title : 'Solution';
+    solution    : String                @title : 'Solution'  @UI.MultiLineText;
     status      : Association to Status @title : 'Status';
     user        : String                @title : 'User';
 }
 
 annotate Requirements with {
     ID @Core.Computed
-//status @Common.ValueListWithFixedValues
 }
 
 @cds.odata.valuelist
@@ -32,28 +31,3 @@ entity Status : CodeList, managed {
 annotate Status with {
     descr @Core.Computed
 }
-
-// annotate Status with {
-
-//     descr @Common : {
-//         Text            : descr,
-//         TextArrangement : #TextOnly,
-//         //insert your value list here
-//         ValueList       : {
-//             $Type          : 'Common.ValueListType',
-//             Label          : 'Status',
-//             CollectionPath : 'Status',
-//             Parameters     : [
-//                 {
-//                     $Type             : 'Common.ValueListParameterInOut',
-//                     LocalDataProperty : ID,
-//                     ValueListProperty : 'code'
-//                 },
-//                 {
-//                     $Type             : 'Common.ValueListParameterDisplayOnly',
-//                     ValueListProperty : 'descr'
-//                 }
-//             ]
-//         }
-//     };
-// };

@@ -1,4 +1,3 @@
-const assert = require('assert');
 const functions = require('../srv/catServiceFunctions');
 
 
@@ -12,20 +11,22 @@ describe('test mail sending', () => {
     });
     it('should return a token', async () => {
         const credstoreBinding = functions.getCredstoreBinding();
-        const { mailApiUrl, keyNameSpace, passwordName, tokenUrl, keyName } = functions.getProcessEnvironmentVariables();
+        const { keyNameSpace, passwordName, tokenUrl } = functions.getProcessEnvironmentVariables();
         //get request handler
         const request = require("superagent");
         //get token
         const accessToken = await functions.getAccessToken(credstoreBinding, keyNameSpace, passwordName, tokenUrl, request);
         expect(accessToken).not.to.be.eq(undefined);
     });
-    it('should return an error after mail sending with incorrect recipient', async () => {
-        const res = await functions.callSendMailAPI('asdfsdfsd', 'shhd', 'dfsdfasdf');
-        expect(res).to.be.eq('error at sending mail');
-    });
+
     it('should not return an error after mail sending', async () => {
         const { mailRecipient } = functions.getProcessEnvironmentVariables();
         const res = await functions.callSendMailAPI(mailRecipient, 'testproblem', 'testdescription');
-        expect(res).not.to.be.eq('error at sending mail');
+        expect(res).not.to.be.eq('error at sending mail Internal Server Error');
+    });
+
+    it('should return an error after mail sending with incorrect recipient', async () => {
+        const res = await functions.callSendMailAPI('asdfsdfsd', 'shhd', 'dfsdfasdf');
+        expect(res).to.be.eq('error at sending mail Internal Server Error');
     });
 });
