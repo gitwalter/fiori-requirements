@@ -13,7 +13,7 @@
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "express": "^4",
-    "jest": "^27.0.4",
+    "jest": "^27.0.6",
     "mocha": "^9.0.0",
     "node-fetch": "^2.6.1",
     "node-jose": "^2.0.0",
@@ -28,11 +28,10 @@
   },
   "scripts": {
     "start": "cds run",
-    "test": "npm run test-with-coverage",
-    "test-with-coverage": "nyc --check-coverage --lines 90 --per-file --reporter=html --reporter=text  mocha test/*.js --timeout 15000 --exit",
-    "test-endpoint": "npm run test-endpoint-with-coverage",
-    "test-service": "jest --detectOpenHandles",
-    "test-endpoint-with-coverage": "nyc --check-coverage --lines 90 --per-file --reporter=html --reporter=text  mocha test/endpoint.js --timeout 15000 --exit"
+    "test": "npm run test-endpoint & npm run test-unittest & npm run test-jest",    
+    "test-unittest": "nyc --check-coverage --lines 70 --per-file --reporter=html --reporter=text  mocha test/unittests.js --timeout 30000 --exit",
+    "test-jest": "jest",
+    "test-endpoint": "nyc --check-coverage --lines 10 --per-file --reporter=html --reporter=text  mocha test/endpoint.js --timeout 15000 --exit"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",

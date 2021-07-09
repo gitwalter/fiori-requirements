@@ -10,7 +10,6 @@ modules:
   - name: fiori-requirements-xsuaa
   - name: fiori-requirements-destination
   - name: fiori-requirements-connectivity
-  - name: credstoresrv
   - name: fiori-requirements-db
   provides:
   - name: srv-api
@@ -112,11 +111,6 @@ resources:
     service-plan: hdi-shared
   properties:
     hdi-service-name: ${service-name}
-- name: credstoresrv
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: credstore
-    service-plan: standard    
 - name: fiori-requirements_html_repo_host
   type: org.cloudfoundry.managed-service
   parameters:
@@ -126,3 +120,9 @@ resources:
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install --production
+    - npx -p @sap/cds-dk cds build --production
