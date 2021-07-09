@@ -5,39 +5,16 @@ annotate service.Requirements @odata.draft.enabled;
 //List Page
 annotate service.Requirements with @(UI : {
     Identification  : [{Value : problem}],
-    SelectionFields : [number],
+    SelectionFields : [status_ID],
 
     LineItem        : [
         {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.EntityContainer/sendMail',
-            Label  : 'Mail',
-
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setSolution',
-            Label  : 'Solution',
-
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToReported',
-            Label  : 'Report'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToWorkInProgress',
-            Label  : 'Work In Progress'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToSolved',
-            Label  : 'Solved'
-        },
-        {
             Value : number,
             Label : 'Requirement Number'
+        },
+        {
+            Value : app,
+            Label : 'App'
         },
         {
             Value : problem,
@@ -58,34 +35,27 @@ annotate service.Requirements with @(UI : {
 //Object Page
 
 annotate service.Requirements with @(UI : {
+
+      HeaderFacets              : [{
+        $Type  : 'UI.ReferenceFacet',
+        Label  : 'Requirement',
+        Target : '@UI.FieldGroup#Header'
+    }, ],
+
+     FieldGroup #Header : {Data : [
+        {
+            Value : number,
+            Label : 'Number'
+        },       
+    ]},
+
     Facets              : [{
         $Type  : 'UI.ReferenceFacet',
         Label  : 'Details',
         Target : '@UI.FieldGroup#Details'
     }, ],
 
-
-    FieldGroup #Details : {Data : [
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToReported',
-            Label  : 'Report'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToWorkInProgress',
-            Label  : 'Work In Progress'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'requirements_service.setToSolved',
-            Label  : 'Solved'
-        },
-
-        {
-            Value : number,
-            Label : 'Requirement Number'
-        },
+    FieldGroup #Details : {Data : [       
         {
             Value : app,
             Label : 'App'
@@ -105,16 +75,6 @@ annotate service.Requirements with @(UI : {
         {
             Value : status_ID,
             Label : 'Status'
-        },
-        {
-            Value : status.descr,
-            Label : 'Status Text'
-        },
-        {
-            $Type : 'UI.DataFieldWithUrl',
-            Value : 'https://www.google.de',
-            Url   : 'https://www.google.de',
-            Label : 'Column label'
         }
     ]}
 });

@@ -18,6 +18,7 @@ describe("GET /requirements-service/Requirements", () => {
     it("+ should return a list of requirements", (done) => {
         chai.request(app)
             .get("/requirements-service/Requirements")
+            .set("Authorization", "Basic alice:")
             .end((error, response) => {
                 try {
                     response.should.have.status(200);
@@ -29,12 +30,12 @@ describe("GET /requirements-service/Requirements", () => {
             });
     });
 
-    let id = null;
 
     it('should create a requirement', (done) => {
         chai.request(app)
             .post("/requirements-service/Requirements")
             .set('content-type', 'application/json;IEEE754Compatible=true')
+            .set("Authorization", "Basic alice:")
             .send({
                 problem: "the sun is not shining",
                 app: "sun app",
@@ -45,8 +46,6 @@ describe("GET /requirements-service/Requirements", () => {
             .end((error, response) => {
                 try {
                     response.should.have.status(201);
-                    id = response.body.ID;
-                    //response.body.value.should.be.an("array").to.have.lengthOf(1);
                     done();
                 } catch (error) {
                     done(error);

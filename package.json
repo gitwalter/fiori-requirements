@@ -9,6 +9,7 @@
     "@sap/cds": "^5.1.5",
     "@sap/hana-client": "^2.6.61",
     "@sap/xsenv": "^3.1.0",
+    "@sap/xssec": "^3.2.2",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "express": "^4",
@@ -17,6 +18,7 @@
     "node-fetch": "^2.6.1",
     "node-jose": "^2.0.0",
     "nyc": "^15.1.0",
+    "passport": "^0.4.1",
     "superagent": "^6.1.0"
   },
   "devDependencies": {
@@ -69,8 +71,6 @@
     }
   },
   "sapux": [
-    "app/fiori-requirements-ui",
-    "app/project1",
     "app/fiori-requirements-ui"
   ]
 }
